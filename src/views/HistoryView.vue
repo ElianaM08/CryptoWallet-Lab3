@@ -35,9 +35,9 @@
   
       <div v-if="transactions.length === 0">No hay transacciones disponibles.</div>
     </div>
-  </template>
+</template>
   
-  <script>
+<script>
   import LaboratorioApi from "@/services/LaboratorioApi"; 
   
   export default {
@@ -82,9 +82,9 @@
       this.fetchTransactions(); 
     },
   };
-  </script>
+</script>
   
-  <style scoped>
+<style scoped>
   .selected {
     background-color: #f2f2f2;
     font-weight: bold;
@@ -118,4 +118,4 @@
     background: linear-gradient(90deg, rgba(4,78,83,1) 0%, rgba(9,103,121,1) 48%, rgba(0,203,246,1) 100%);
     color: aliceblue;
   }
-  </style>
+</style>
