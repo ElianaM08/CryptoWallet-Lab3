@@ -1,27 +1,37 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+  
+  <nav v-if="this.$store.state.userId">
+    | <router-link to="/home">Home</router-link> |
+    <router-link to = "/history">Historial</router-link> |
+    <router-link to = "/actualState">Estado Actual</router-link> | 
+    <router-link to = "/investment">Analisis de Inversiones</router-link> |
+
   </nav>
+ 
   <router-view/>
 </template>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family:Arial, Helvetica, sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
   text-align: center;
-  color: #2c3e50;
 }
-
-nav {
-  padding: 30px;
+body{
+  padding-top: 200px;
+  background-color: #2c3e50;
+  background-image: url('./assets/criptomoneda.jpg') ;
+  background-repeat: no-repeat;
+  background-size: cover;  
 }
-
+img{
+  max-width: 500px;
+ 
+}
 nav a {
   font-weight: bold;
-  color: #2c3e50;
+  color: #8a9197;
 }
 
 nav a.router-link-exact-active {
