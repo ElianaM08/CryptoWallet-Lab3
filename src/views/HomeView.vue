@@ -1,18 +1,37 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container">
+      <PurchaseComponent class="purchase"></PurchaseComponent>
+      <CalculateActions class="calculate"></CalculateActions>
+      <SaleComponent class="sale"></SaleComponent>
+      
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import CalculateActions from '@/components/CalculateActions.vue';
+import PurchaseComponent from '@/components/PurchaseComponent.vue';
+import SaleComponent from '@/components/SaleComponent.vue';
 
 export default {
   name: 'HomeView',
+  props:{
+    userId: {
+      type: String,
+      Required: true,
+    }
+  },
   components: {
-    HelloWorld
+    PurchaseComponent,
+    SaleComponent,
+    CalculateActions,
   }
 }
 </script>
+<style scoped>
+.container{
+ display: flex;
+ flex-direction: row;
+ margin-left: 30px;
+}
+
+</style>
