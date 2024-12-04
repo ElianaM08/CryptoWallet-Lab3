@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
-
+import LaboratorioApi from '@/services/LaboratorioApi';
+import CryptoYaApi from '@/services/CryptoYaApi';
 export default createStore({
   state: {
     transactions: [],
