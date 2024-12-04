@@ -73,7 +73,7 @@ export default {
   },
 };
 </script> -->
-<template>
+<!-- <template>
   <div class="investment-result-container">
     <h2>Resultado de Inversiones</h2>
     <div class="table-container">
@@ -180,9 +180,145 @@ export default {
     await this.fetchTransactions();
   },
 };
+</script> -->
+<template>
+  <div>
+    <h2>Resultados de Inversión</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Criptomoneda</th>
+          <th>Resultado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(transaction, index) in transactions" :key="index">
+          <td>{{ transaction.crypto_code }}</td>
+          <td :class="{'profit': transaction.profitOrLoss > 0, 'loss': transaction.profitOrLoss < 0}">
+            {{ formatMoney(transaction.profitOrLoss) }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</template>
+
+<script>
+import CryptoYaApi from "@/services/CryptoYaApi";
+
+export default {
+  name: "InvestmentResult",
+  data() {
+    return {
+      transactions: [],
+      cryptoResults: [],
+    };
+  },
+  methods: {
+    async fetchTransactions() {
+      try {
+        await this.$store.dispatch("fetchTransactions");
+        this.transactions = this.$store.state.transactions.filter(
+          (transaction) =>
+            transaction.action === "purchase" || transaction.action === "sale"
+        );
+        await this.calculateCryptoResults();
+      } catch (error) {
+        console.error("Error al obtener las transacciones:", error);
+      }
+    },
+    async calculateCryptoResults() {
+      const cryptoMap = {};
+
+      this.transactions.forEach((transaction) => {
+        const { crypto_code, crypto_amount, money, action } = transaction;
+
+        if (!cryptoMap[crypto_code]) {
+          cryptoMap[crypto_code] = { totalAmount: 0, totalMoney: 0 };
+        }
+
+        if (action === "purchase") {
+          cryptoMap[crypto_code].totalAmount += crypto_amount;
+          cryptoMap[crypto_code].totalMoney -= money;
+        } else if (action === "sale") {
+          cryptoMap[crypto_code].totalAmount -= crypto_amount;
+          cryptoMap[crypto_code].totalMoney += money;
+        }
+      });
+
+      const transaction = [];
+      for (const cryptoType in cryptoMap) {
+        const { totalAmount, totalMoney } = cryptoMap[cryptoType];
+        if (totalAmount !== 0) {
+          try {
+            const response = await CryptoYaApi.getPrice(cryptoType, Math.abs(totalAmount));
+            const currentMoney = response.data.totalBid || 0;
+            const profitOrLoss = totalMoney + currentMoney;
+            transaction.push({
+              cryptoType,
+              profitOrLoss,
+            });
+          } catch (error) {
+            console.error(`Error al obtener el precio de ${cryptoType}:`, error);
+            transaction.push({
+              cryptoType,
+              profitOrLoss: totalMoney,
+            });
+          }
+        }
+      }
+
+      this.transactions = transaction;
+    },
+    formatMoney(value) {
+      const formatted = new Intl.NumberFormat("es-AR", {
+        style: "currency",
+        currency: "ARS",
+      }).format(Math.abs(value));
+      return value > 0 ? `+${formatted}` : `-${formatted}`;
+    },
+  },
+  async created() {
+    await this.fetchTransactions();
+  },
+};
 </script>
 
 <style scoped>
+table {
+  display: grid;
+  justify-content: center;
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+
+}
+h2{
+  color: aliceblue;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  background-color: aliceblue;
+}
+
+th {
+  background-color: #f4f4f4;
+}
+
+.profit {
+  color: green;
+}
+
+.loss {
+  color: red;
+}
+</style>
+
+
+<!-- <style scoped>
 h2{
   color: aliceblue;
 }
@@ -194,6 +330,7 @@ h2{
 
 .table-container {
   margin-top: 20px;
+  background-color: aliceblue;
 }
 
 table {
@@ -212,6 +349,7 @@ th {
 
 td {
   border-top: 1px solid #ddd;
+  color: black;
 }
 
 .total {
@@ -220,7 +358,7 @@ td {
   display: block;
   background-color:rgb(49, 186, 186);
 }
-</style>
+</style> -->
 
     
   <!-- <style scoped>
