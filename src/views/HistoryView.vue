@@ -4,6 +4,7 @@
       <table border="1" class="table">
         <thead>
           <tr>
+            <th>Usuario</th>
             <th>Criptomoneda</th>
             <th>Cantidad</th>
             <th>Dinero</th>
@@ -27,7 +28,7 @@
             <td>{{ transaction.datetime }}</td>
             <td>
               <button @click.stop="deleteTransaction(transaction._id)">Eliminar</button>
-              <button @click.stop="redirectToEdit(transaction.id)">Editar</button>
+              <button @click.stop="redirectToEdit(transaction._id)">Editar</button>
             </td>
           </tr>
         </tbody>
@@ -74,8 +75,8 @@
     }
   },
   
-      redirectToEdit(Id) {
-        this.$router.push({ name: "EditTransaction", params: { id: Id } });
+      redirectToEdit(transactionId) {
+        this.$router.push({ name: "EditTransaction", params: { id: transactionId} });
       },
     },
     created() {

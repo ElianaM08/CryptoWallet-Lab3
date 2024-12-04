@@ -40,6 +40,7 @@
   <script>
   export default {
     name: "EditTransactions",
+    props: ["transactionId"],
     data() {
       return {
         transaction: {
@@ -66,7 +67,7 @@
       async updateTransaction() {
         try {
           const transactionId = this.$route.params.id;
-          await this.$store.dispatch(" UPDATE_TRANSACTION", {
+          await this.$store.dispatch(" UpdateTransaction", {
             id: transactionId,
             update: this.transaction,
           });

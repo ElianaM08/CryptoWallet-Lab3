@@ -23,7 +23,7 @@ const routes = [
     component: HistoryView
   },
   {
-    path: '/edit-transaction/:id', 
+    path: '/editTransaction/:id', 
     name: 'EditTransaction',
     component: EditTransaction,
     props: true 
