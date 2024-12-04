@@ -1,25 +1,7 @@
-<template>
-    <div class="princ-container">
-      <h2>Resultado de Inversiones</h2>
-      <div class="container">
-        <table>
-        <thead>
-          <tr>
-            <th>Criptomoneda</th>
-            <th>Resultado</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(investment, index) in investmentResults" :key="index">
-            <td>{{ investment.cryptoType }}</td>
-            <td>
-              {{ investment.result > 0 ? 'Ganancia' : 'Pérdida' }} 
-              ({{ investment.result }})
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      </div>
+<!-- <template>
+  <div class="princ-container">
+    <h2>Resultado de Inversiones</h2>
+    <div class="container">
       <table>
         <thead>
           <tr>
@@ -28,84 +10,222 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(investment, index) in investmentResults" :key="index">
-            <td>{{ investment.cryptoType }}</td>
+          <tr v-for="(transaction, index) in transactions" :key="index">
+            <td>{{ transaction.crypto_code }}</td>
             <td>
-              {{ investment.result > 0 ? 'Ganancia' : 'Pérdida' }} 
-              ({{ investment.result }})
+              {{ calculateResult( transaction.money) }}
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-  </template>
-  
-  <script>
-  import CryptoYaApi from '@/services/CryptoYaApi';
-  
-  export default {
-    name: "InvestmentResult",
-    data() {
-      return {
-        transactions: [],
-        investmentResults: [],
-      };
+  </div>
+</template>
+
+<script>
+import CryptoYaApi from "@/services/CryptoYaApi";
+
+export default {
+  name: "InvestmentResult",
+  data() {
+    return {
+      transactions: [],
+    };
+  },
+  methods: {
+    // Método para calcular el resultado (ganancia o pérdida)
+    calculateResult(money) {
+      const currentPrice = this.getCurrentPrice( money);
+
+      // Si la transacción es una compra, se calcula la diferencia
+      if (money > currentPrice) {
+        const profit = currentPrice - money;
+        return `Ganancia: ${profit.toFixed(2)} ARS`;
+      } else {
+        const loss = money- currentPrice;
+        return `Pérdida: ${loss.toFixed(2)} ARS`;
+      }
     },
-    methods: {
-      async fetchTransactions() {
-        try {
-          await this.$store.dispatch("fetchTransactions");
-          this.transactions = this.$store.state.transactions;
-          this.calculateInvestmentResults();
-        } catch (error) {
-          console.error("Error al obtener las transacciones:", error);
+
+    // Método para obtener el precio actual de la criptomoneda
+    async getCurrentPrice( money) {
+      try {
+        const response = await CryptoYaApi.getPrice( money);
+        return response.data.totalBid || 0;  // El precio de la criptomoneda
+      } catch (error) {
+        console.error("Error al obtener el precio de la criptomoneda:", error);
+        return 0;
+      }
+    },
+
+    // Fetch las transacciones (suponiendo que ya tienes un store que las maneja)
+    async fetchTransactions() {
+      try {
+        await this.$store.dispatch("fetchTransactions");
+        this.transactions = this.$store.state.transactions;
+      } catch (error) {
+        console.error("Error al obtener las transacciones:", error);
+      }
+    },
+  },
+  async created() {
+    await this.fetchTransactions();
+  },
+};
+</script> -->
+<template>
+  <div class="investment-result-container">
+    <h2>Resultado de Inversiones</h2>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Criptomoneda</th>
+            <th>Cantidad</th>
+            <th>Valor Total de Compra/Venta</th>
+            <th>Ganancia/Pérdida</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(transaction, index) in transactions" :key="index">
+            <td>{{ transaction.crypto_code }}</td>
+            <td>{{ transaction.crypto_amount }}</td>
+            <td>{{ formatMoney(transaction.money) }}</td>
+            <td>{{ formatMoney(transaction.profitOrLoss) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <strong>Monto Total:</strong> {{ formatMoney(totalMoney) }}
+    </div>
+  </div>
+</template>
+
+<script>
+import CryptoYaApi from "@/services/CryptoYaApi";
+
+export default {
+  name: "InvestmentResult",
+  data() {
+    return {
+      transactions: [],
+      totalMoney: 0,
+    };
+  },
+  computed: {
+    // Calcular el total de dinero en todas las transacciones
+    calculateTotalMoney() {
+      return this.transactions.reduce((total, transaction) => total + transaction.money, 0);
+    },
+  },
+  methods: {
+    // Obtener las transacciones de la API y store
+    async fetchTransactions() {
+      try {
+        await this.$store.dispatch("fetchTransactions");
+        this.transactions = this.$store.state.transactions.filter(transaction =>
+          transaction.action === "purchase" || transaction.action === "sale"
+        );
+        await this.calculateProfitOrLossForAllTransactions();
+        this.totalMoney = this.calculateTotalMoney;
+      } catch (error) {
+        console.error("Error al obtener las transacciones:", error);
+      }
+    },
+
+    // Calcular la ganancia o pérdida para todas las transacciones
+    async calculateProfitOrLossForAllTransactions() {
+      const updatedTransactions = [];
+
+      for (const transaction of this.transactions) {
+        const currentPrice = await this.getCurrentPrice(transaction.crypto_code);
+        let profitOrLoss = 0;
+
+        // Si la acción es compra
+        if (transaction.action === "purchase") {
+          profitOrLoss = (currentPrice * transaction.crypto_amount) - transaction.money;
         }
-      },
-      async calculateInvestmentResults() {
-        const investmentMap = {};
-  
-        this.transactions.forEach((transaction) => {
-          const { crypto_code, crypto_amount, action, money } = transaction;
-          if (!investmentMap[crypto_code]) {
-            investmentMap[crypto_code] = { amount: 0, invested: 0 };
-          }
-  
-          if (action === "purchase") {
-            investmentMap[crypto_code].amount += crypto_amount;
-            investmentMap[crypto_code].invested += money;
-          } else if (action === "sale") {
-            investmentMap[crypto_code].amount -= crypto_amount;
-            investmentMap[crypto_code].invested -= money;
-          }
+
+        // Si la acción es venta
+        else if (transaction.action === "sale") {
+          profitOrLoss = transaction.money - (currentPrice * transaction.crypto_amount);
+        }
+
+        // Guardamos el resultado de ganancia o pérdida en la transacción
+        updatedTransactions.push({
+          ...transaction,
+          profitOrLoss,
         });
-  
-        const results = [];
-        for (const cryptoType in investmentMap) {
-          const { amount, invested } = investmentMap[cryptoType];
-          if (amount > 0) {
-            try {
-              const response = await CryptoYaApi.getPrice(cryptoType, amount);
-              const currentMoney = response.data.totalBid || 0; 
-              const result = currentMoney - invested;
-              results.push({ cryptoType, result });
-            } catch (error) {
-              console.error(`Error al obtener el precio de ${cryptoType}:`, error);
-              results.push({ cryptoType, result: "Error al calcular" });
-            }
-          }
-        }
-  
-        this.investmentResults = results;
-      },
+      }
+
+      this.transactions = updatedTransactions;
     },
-    async created() {
-      await this.fetchTransactions();
+
+    // Obtener el precio actual de la criptomoneda
+    async getCurrentPrice(cryptoCode) {
+      try {
+        const response = await CryptoYaApi.getPrice(cryptoCode);
+        return response.data.totalBid || 0; // Suponiendo que 'totalBid' es el precio de la criptomoneda
+      } catch (error) {
+        console.error("Error al obtener el precio de la criptomoneda:", error);
+        return 0; // Retornar 0 si no se puede obtener el precio
+      }
     },
-  };
-  </script>
-  
+
+    formatMoney(value) {
+      const number = Number(value);
+      if (isNaN(number)) {
+        return value; 
+      }
+      return new Intl.NumberFormat("es-AR", {
+        style: "currency",
+        currency: "ARS",
+      }).format(number); 
+    },
+  },
+  async created() {
+    await this.fetchTransactions();
+  },
+};
+</script>
+
+<style scoped>
+.investment-result-container {
+  padding: 20px;
+}
+
+.table-container {
+  margin-top: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+td {
+  border-top: 1px solid #ddd;
+}
+
+strong {
+  font-size: 1.2em;
+  margin-top: 20px;
+  display: block;
+}
+</style>
+
     
-  <style scoped>
+  <!-- <style scoped>
     .princ-container{
       display: grid;
       justify-content: center;
@@ -117,11 +237,11 @@
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       padding: 100px;
     }
-    h1{
+    h2{
       color: aliceblue;
     }
     th{
       color: black;
     }
   </style>
-    
+     -->
