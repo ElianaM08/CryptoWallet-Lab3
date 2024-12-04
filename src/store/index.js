@@ -1,6 +1,6 @@
 import { createStore } from 'vuex'
 import LaboratorioApi from '@/services/LaboratorioApi';
-import CryptoYaApi from '@/services/CryptoYaApi';
+// import CryptoYaApi from '@/services/CryptoYaApi';
 export default createStore({
   state: {
     transactions: [],
@@ -19,15 +19,15 @@ export default createStore({
     AddTransaction(state, transaction) {
       state.transactions.push(transaction);
     },
-    updatedTransaction(state, updatedTransaction) {
-      const index = state.transactions.findIndex(t => t.id === updatedTransaction.id);
-      if (index !== -1) {
-        Vue.set(state.transactions, index, updatedTransaction);
-      }
-    },
-    RemoveTransaction(state, userId) {
-      state.userId = state.userId.filter(t => t.id !== userId);
-     },
+    // updatedTransaction(state, updatedTransaction) {
+    //   const index = state.transactions.findIndex(t => t.id === updatedTransaction.id);
+    //   if (index !== -1) {
+    //     Vue.set(state.transactions, index, updatedTransaction);
+    //   }
+    // },
+    // RemoveTransaction(state, userId) {
+    //   state.userId = state.userId.filter(t => t.id !== userId);
+    //  },
     SetTotalMoney(state, total) {
       state.totalMoney = total;
     },
@@ -52,20 +52,20 @@ export default createStore({
       const response = await LaboratorioApi.newTransaction(transaction);
       commit('AddTransaction', response.data);
     },
-    async calculateCurrentState({ commit, state }) {
-      let total = 0;
-      for (const transaction of state.transactions) {
-        const { cryptoType, quantity, action } = transaction;
-        const priceResponse = await CryptoYaApi.getPrice(cryptoType, quantity);
-        const price = priceResponse.data.price;
-        if (action === 'compra') {
-          total += price;
-        } else if (action === 'venta') {
-          total -= price;
-        }
-      }
-      commit('SetTotalMoney', total);
-    },
+    // async calculateCurrentState({ commit, state }) {
+    //   let total = 0;
+    //   for (const transaction of state.transactions) {
+    //     const { cryptoType, quantity, action } = transaction;
+    //     const priceResponse = await CryptoYaApi.getPrice(cryptoType, quantity);
+    //     const price = priceResponse.data.price;
+    //     if (action === 'compra') {
+    //       total += price;
+    //     } else if (action === 'venta') {
+    //       total -= price;
+    //     }
+    //   }
+    //   commit('SetTotalMoney', total);
+    // },
     async getTransactions({ commit }, userId) {
       const response = await LaboratorioApi.getAllTransactions(userId);
       commit('SetTransaction', response.data);
