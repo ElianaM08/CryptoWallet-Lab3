@@ -110,6 +110,8 @@
   
   .table{
     background-color: aliceblue;
+    width: 100%;
+    border-collapse: collapse;
   }
   .mj{
     color: aliceblue;

@@ -96,7 +96,7 @@ export default {
         </tbody>
       </table>
     </div>
-    <div>
+    <div class="total">
       <strong>Monto Total:</strong> {{ formatMoney(totalMoney) }}
     </div>
   </div>
@@ -183,7 +183,12 @@ export default {
 </script>
 
 <style scoped>
+h2{
+  color: aliceblue;
+}
 .investment-result-container {
+  display: grid;
+  justify-content: center;
   padding: 20px;
 }
 
@@ -192,7 +197,7 @@ export default {
 }
 
 table {
-  width: 100%;
+  width: 50%;
   border-collapse: collapse;
 }
 
@@ -209,10 +214,11 @@ td {
   border-top: 1px solid #ddd;
 }
 
-strong {
+.total {
   font-size: 1.2em;
   margin-top: 20px;
   display: block;
+  background-color:rgb(49, 186, 186);
 }
 </style>
 
