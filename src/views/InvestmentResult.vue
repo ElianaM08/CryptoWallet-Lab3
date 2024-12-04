@@ -114,13 +114,11 @@ export default {
     };
   },
   computed: {
-    // Calcular el total de dinero en todas las transacciones
     calculateTotalMoney() {
       return this.transactions.reduce((total, transaction) => total + transaction.money, 0);
     },
   },
   methods: {
-    // Obtener las transacciones de la API y store
     async fetchTransactions() {
       try {
         await this.$store.dispatch("fetchTransactions");
@@ -134,7 +132,6 @@ export default {
       }
     },
 
-    // Calcular la ganancia o pérdida para todas las transacciones
     async calculateProfitOrLossForAllTransactions() {
       const updatedTransactions = [];
 
@@ -142,17 +139,13 @@ export default {
         const currentPrice = await this.getCurrentPrice(transaction.crypto_code);
         let profitOrLoss = 0;
 
-        // Si la acción es compra
         if (transaction.action === "purchase") {
           profitOrLoss = (currentPrice * transaction.crypto_amount) - transaction.money;
         }
-
-        // Si la acción es venta
         else if (transaction.action === "sale") {
           profitOrLoss = transaction.money - (currentPrice * transaction.crypto_amount);
         }
 
-        // Guardamos el resultado de ganancia o pérdida en la transacción
         updatedTransactions.push({
           ...transaction,
           profitOrLoss,
@@ -162,14 +155,13 @@ export default {
       this.transactions = updatedTransactions;
     },
 
-    // Obtener el precio actual de la criptomoneda
     async getCurrentPrice(cryptoCode) {
       try {
         const response = await CryptoYaApi.getPrice(cryptoCode);
-        return response.data.totalBid || 0; // Suponiendo que 'totalBid' es el precio de la criptomoneda
+        return response.data.totalBid || 0; 
       } catch (error) {
         console.error("Error al obtener el precio de la criptomoneda:", error);
-        return 0; // Retornar 0 si no se puede obtener el precio
+        return 0; 
       }
     },
 
