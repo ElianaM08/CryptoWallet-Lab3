@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container">
       <h2>Historial de Transacciones</h2>
       <table border="1" class="table">
         <thead>
@@ -27,14 +27,14 @@
             <td>{{ transaction.action }}</td>
             <td>{{ transaction.datetime }}</td>
             <td>
-              <button @click.stop="deleteTransaction(transaction._id)">Eliminar</button>
-              <button @click.stop="redirectToEdit(transaction._id)">Editar</button>
+              <button @click.stop="deleteTransaction(transaction._id) " class="deleteButton">Eliminar</button>
+              <button @click.stop="redirectToEdit(transaction._id)" class="editButton">Editar</button>
             </td>
           </tr>
         </tbody>
       </table>
   
-      <div v-if="transactions.length === 0">No hay transacciones disponibles.</div>
+      <div v-if="transactions.length === 0" class="mj">No hay transacciones disponibles.</div>
     </div>
 </template>
   
@@ -86,6 +86,10 @@
 </script>
   
 <style scoped>
+.container{
+  display: grid;
+  justify-content: center;
+}
   .selected {
     background-color: #f2f2f2;
     font-weight: bold;
@@ -98,7 +102,9 @@
   .table{
     background-color: aliceblue;
   }
-  
+  .mj{
+    color: aliceblue;
+  }
   .deleteButton{
     margin: 5px 0;
     padding: 8px;
