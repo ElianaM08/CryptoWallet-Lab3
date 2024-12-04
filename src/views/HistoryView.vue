@@ -23,7 +23,7 @@
             <td>{{ transaction.user_id }}</td>
             <td>{{ transaction.crypto_code }}</td>
             <td>{{ transaction.crypto_amount }}</td>
-            <td>{{ transaction.money }}</td>
+            <td>{{formatMoney(transaction.money)  }}</td>
             <td>{{ transaction.action }}</td>
             <td>{{ transaction.datetime }}</td>
             <td>
@@ -74,11 +74,20 @@
       alert("No se pudo eliminar la transacción.");
     }
   },
-  
-      redirectToEdit(transactionId) {
-        this.$router.push({ name: "EditTransaction", params: { id: transactionId} });
-      },
+  formatMoney(value) {
+      const number = Number(value);
+      if (isNaN(number)) {
+        return value; 
+      }
+      return new Intl.NumberFormat("es-AR", {
+        style: "currency",
+        currency: "ARS",
+      }).format(number); 
     },
+    redirectToEdit(transactionId) {
+      this.$router.push({ name: "EditTransaction", params: { id: transactionId} });
+    },
+ },
     created() {
       this.fetchTransactions(); 
     },
