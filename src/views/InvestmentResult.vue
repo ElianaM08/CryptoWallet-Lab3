@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <h2>Resultados de Inversión</h2>
     <table>
       <thead>
@@ -115,13 +115,14 @@ export default {
 </script>
 
 <style scoped>
-table {
+.container{
   display: grid;
   justify-content: center;
+}
+table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
-
 }
 h2{
   color: aliceblue;
