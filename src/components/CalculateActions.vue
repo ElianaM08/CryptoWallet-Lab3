@@ -1,6 +1,6 @@
 <template>
     <div class="calculate-actions-container">
-      <h2>Historial de Acciones</h2>
+      <h2>Resumen</h2>
       <table>
         <thead>
           <tr>
