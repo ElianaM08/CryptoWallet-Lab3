@@ -1,16 +1,24 @@
 <template>
-  
   <nav v-if="this.$store.state.userId">
     | <router-link to="/home">Home</router-link> |
-    <router-link to = "/history">Historial</router-link> |
-    <!-- <router-link :to = "{name: 'EditTransaction', params: {id: edit}}">{{ edit }}</router-link> -->
-    <router-link to = "/actualState">Estado Actual</router-link> | 
-    <router-link to = "/investment">Analisis de Inversiones</router-link> |
-
+      <router-link to = "/history">Historial</router-link> |
+      <router-link to = "/actualState">Estado Actual</router-link> | 
+      <router-link to = "/investment">Analisis de Inversiones</router-link> |
   </nav>
- 
   <router-view/>
 </template>
+
+<script>
+export default{
+    data(){
+      return{
+        userId: ''
+      }
+    }
+}
+
+</script>
+
 
 <style>
 #app {
