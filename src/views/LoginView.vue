@@ -2,24 +2,20 @@
     <head>
       <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-thin-straight/css/uicons-thin-straight.css'>
     </head>
-     <h1>Bienvenido a La Billetera Virtual </h1>
-     <h1></h1>
     <div class="princ-container">
-     
-      <div class="sec-container">
-           
-            <i class="fi fi-ts-rocket-lunch"></i>
-            <h2>E-Crypto</h2>
-            <div class="container">
+      <main class="main">
               <form>
-                  <h3>Ingresar ID</h3>
+                  <i class="fi fi-ts-rocket-lunch"> E-Crypto</i>
+                  <h2>Sign up</h2>
+                  <h3>Bienvenido a la billetera virtual que puede cambiar tu futuro</h3>
+                  <p>Ingresar ID</p>
                   <input type="text" v-model="userId" required />
                   <div v-if="error"></div>
                   <p>{{ error }}</p>
-                  <button @click.prevent="Login">Iniciar Seción</button>
-              </form>
-            </div>
-        </div>
+                  <button @click.prevent="Login">Login</button>
+              </form>    
+      </main>
+      <img class="image-section" src="../assets/trading.png" alt="">
     </div>
       
   </template>
@@ -45,53 +41,66 @@
     }
   
   }
-  </script>
-  <style scoped>
-  .princ-container{
-    display: grid;
+</script>
+<style scoped>
+ body {
+  height: 100%;
+  width: 100%;
+}
+.princ-container{
+    display: flex;
+    height: 100vh;
+    
+}
+.main .image-section{
+    flex: 1;
+}
+.main{
+    background-color: rgb(0, 0, 0);
+    display: flex;
+    flex-direction: column;
     justify-content: center;
-    
-    
-  }
-  .sec-container{
-    background-color: rgb(255, 255, 255);
-    padding: 50px 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-  
-  }
+    align-items: center;
+    padding: 200px;
+ }
+ 
+ .image-section{
+    background-size: cover;
+    background-position: center;
+ }
+ h2{
+  color: aliceblue;
+ }
+
   i{
     size: 30px;
-  }
-  
-  h1{
-    font-size: 35px;
-    color: rgb(49, 186, 186);
-  
-    border-radius: 10px;
-    
+    color: aliceblue;
   }
   h3{
-    font-size: 15px;
-    color: rgb(96, 95, 95)
+    font-size: 12px;
+    color: aliceblue;
+    margin-bottom: 40px;
+  }
+  p{
+    font-size: 10px;
+   color: rgb(215, 216, 217);
     
   }
   input{
-    margin: 5px 0;
-    padding: 8px 100px;
-    width: 60%;
+    padding:15px 100px;
     box-sizing: border-box;
-    border-radius: 10px;
+    border-radius: 3px;
+    background-color: rgb(54, 54, 57);
+    border: none;
   }
   button{
-    margin: 5px 0;
-    padding: 8px;
-    width: 60%;
-    border: none;
-    border-radius: 10px;
-    background: rgb(4,78,83);
-    background: linear-gradient(90deg, rgba(4,78,83,1) 0%, rgba(9,103,121,1) 48%, rgba(0,203,246,1) 100%);
-    color: aliceblue;
+  margin: 5px 0;
+  padding: 15px 165px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.3s;
   }
-  </style> 
+</style> 

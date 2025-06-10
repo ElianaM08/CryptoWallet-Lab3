@@ -20,23 +20,10 @@ export default{
 </script>
 
 
-<style>
+<style >
 #app {
-  font-family:Arial, Helvetica, sans-serif;
-  font-optical-sizing: auto;
-  font-style: normal;
-  text-align: center;
-}
-body{
-  padding-top: 200px;
-  background-color: #2c3e50;
-  background-image: url('./assets/criptomoneda.jpg') ;
-  background-repeat: no-repeat;
-  background-size: cover;  
-}
-img{
-  max-width: 500px;
- 
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
 }
 nav a {
   font-weight: bold;
