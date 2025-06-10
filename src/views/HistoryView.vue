@@ -1,6 +1,5 @@
 <template>
     <div class="container">
-      <h2>Historial de Transacciones</h2>
       <table border="1" class="table">
         <thead>
           <tr>
@@ -95,45 +94,57 @@
 </script>
   
 <style scoped>
-.container{
-  display: grid;
-  justify-content: center;
-}
-  .selected {
-    background-color: #f2f2f2;
-    font-weight: bold;
+  .container{
+    display: grid;
+    justify-content: center;
+    margin-top: 80px;
   }
-  
-  h2{
-    color: aliceblue;
-  }
-  
   .table{
-    background-color: aliceblue;
-    width: 100%;
-    border-collapse: collapse;
+      background-color: #171717;
+      color: aliceblue;
+      width: 100%;
+      border: none;
+      
   }
+
+  .table thead tr th,
+  .table tbody tr td
+  {
+    border: none;
+   
+  }
+
+  .selected {
+      background-color: #171717;
+      font-weight: bold;
+      border: none;
+  }
+    
+  h2{
+      color: aliceblue;
+  }
+    
+
   .mj{
-    color: aliceblue;
+      color: aliceblue;
   }
   .deleteButton{
-    margin: 5px 0;
-    padding: 8px;
-    width: 60%;
-    border: none;
-    border-radius: 10px;
-    background: rgb(187, 10, 10);
-    background: linear-gradient(90deg, rgb(187, 10, 10) 0%, rgb(176, 58, 58) 48%, rgb(143, 65, 65) 100%);
-    color: aliceblue;
+      margin: 5px 0;
+      padding: 8px;
+      width: 60%;
+      border: none;
+      border-radius: 3px;
+      background: rgb(187, 10, 10);
+      color: aliceblue;
+
   }
   .editButton{
-    margin: 5px 0;
-    padding: 8px;
-    width: 60%;
-    border: none;
-    border-radius: 10px;
-    background: rgb(4,78,83);
-    background: linear-gradient(90deg, rgba(4,78,83,1) 0%, rgba(9,103,121,1) 48%, rgba(0,203,246,1) 100%);
-    color: aliceblue;
+      margin: 5px 0;
+      padding: 8px;
+      width: 60%;
+      border: none;
+      border-radius: 3px;
+      background: rgb(4,78,83);
+      color: aliceblue;
   }
 </style>
