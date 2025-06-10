@@ -51,7 +51,7 @@ i{
 }
 nav{
    width: 200px;
-  background-color: #333;
+  background-color: #171717;
   color: white;
   padding: 20px;
   border-radius: 5px;
@@ -73,6 +73,7 @@ nav a.router-link{
   margin-bottom: 20px;
 }
 nav a.router-link-exact-active {
-  color: #429fb9;
+  background-color: #429fb9;
+
 }
 </style>

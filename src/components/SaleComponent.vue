@@ -118,7 +118,7 @@
       flex-direction: column;
       max-width: 400px;
       margin: 0 auto;
-      background-color:  #333;
+      background-color: #171717;
       color: aliceblue;
       border-radius: 8px;
       padding: 50px 40px;

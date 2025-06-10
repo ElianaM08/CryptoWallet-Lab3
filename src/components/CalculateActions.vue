@@ -58,9 +58,11 @@
       max-width: 400px;
       margin: 0 auto;
       padding: 20px;
-      background-color: #f9f9f9;
+     background-color: #171717;
+      color: aliceblue;
       border-radius: 8px;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+       text-align: center;
     }
     
     h2 {
