@@ -3,8 +3,8 @@
       <PurchaseComponent class="purchase"></PurchaseComponent>
       <CalculateActions class="calculate"></CalculateActions>
       <SaleComponent class="sale"></SaleComponent>
-      
   </div>
+   
 </template>
 
 <script>
@@ -31,7 +31,6 @@ export default {
 .container{
   display: flex;
   gap: 20px;
+  margin-top: 80px;
 }
-
-
 </style>

@@ -38,7 +38,9 @@ export default{
   
 }
 body{
-  background-color: black;
+   background-image: url('./assets/trading.png');
+    background-size: cover;
+  background-position: center;
 }
 i{
   color: aliceblue;

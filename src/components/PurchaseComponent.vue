@@ -5,7 +5,7 @@
         <div>
           <label for="cryptoType">Selecciona una criptomoneda:</label>
           <select id="cryptoType" v-model="cryptoType">
-            <option value="" disabled>Seleccionar...</option>
+            <option value="" disabled></option>
             <option value="BTC">Bitcoin (BTC)</option>
             <option value="ETH">Ethereum (ETH)</option>
             <option value="USDC">USD Coin (USDC)</option>
@@ -24,16 +24,17 @@
         </div>
   
         <div>
-          <p >Precio de la compra:</p>
+          <p>Precio de la compra:</p>
           <ul>
-            <li><strong>Precio sin comision:</strong> {{ cryptoPrice.ask }}</li>
-            <li><strong>Precio con comision:</strong> {{ cryptoPrice.totalAsk }}</li>
+            <li><strong>Sin comision:</strong> {{ cryptoPrice.ask }}</li>
+            <li><strong>Con comision:</strong> {{ cryptoPrice.totalAsk }}</li>
           </ul>
         </div>
-  
-        <button type="submit":disabled="isLoading">
-          {{ isLoading ? "Procesando..." : "Comprar" }}
-        </button>
+        <div class="button">
+          <button type="submit":disabled="isLoading">
+            {{ isLoading ? "Procesando..." : "Comprar" }}
+          </button>
+        </div>
       </form>
     </div>
   </template>
@@ -110,20 +111,21 @@
   };
   </script>
    
-    
-    <style scoped>
+<style scoped>
     .purchase-container {
       display: flex;
       flex-direction: column;
       max-width: 400px;
       margin: 0 auto;
       justify-content: center;
-      background-color: #f9f9f9;
+      background-color:  #333;
+      color: aliceblue;
       border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       padding: 50px 40px; 
     }
-    
+    h2{
+      text-align: center;
+    }
     input,
     select {
       margin: 5px 0;
@@ -131,14 +133,21 @@
       width: 100%;
       box-sizing: border-box;
     }
-    
+    ul{
+      list-style: none;
+    }
+    .button{
+      text-align: center;
+    }
     button {
       margin-top: 20px;
-      padding: 10px;
+      padding: 10px 80px;
       background-color: #4caf50;
       color: white;
       border: none;
       cursor: pointer;
+      border-radius: 3px;
+      text-align: center;
     }
     
     button:hover {
@@ -155,5 +164,5 @@
       font-size: 14px;
       margin-top: 10px;
     }
-    </style>
+</style>
     
