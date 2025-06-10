@@ -29,9 +29,9 @@ export default {
 </script>
 <style scoped>
 .container{
- display: flex;
- flex-direction: row;
- margin-left: 30px;
+  display: flex;
+  gap: 20px;
 }
+
 
 </style>
